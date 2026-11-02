@@ -1,0 +1,409 @@
+[gd_scene format=3 uid="uid://dbm7s54uek1fy"]
+
+[ext_resource type="PackedScene" uid="uid://cnxrpa35mfxch" path="res://Game Objects/Entities/Car Main/car_main.tscn" id="1_jj2cm"]
+[ext_resource type="Script" uid="uid://dgqq1tf8prx5s" path="res://addons/proton_scatter/src/scatter.gd" id="2_ajo3e"]
+[ext_resource type="Script" uid="uid://ba8jou0xje0c7" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="3_wqm74"]
+[ext_resource type="Script" uid="uid://b5s7ggmsi8g5u" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="4_grapx"]
+[ext_resource type="Script" uid="uid://gjjh4mw1wn51" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="5_urncl"]
+[ext_resource type="Script" uid="uid://b0332hlb7q5t1" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="6_avmfo"]
+[ext_resource type="Script" uid="uid://dc4rwlje6dfca" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="7_85nak"]
+[ext_resource type="Script" uid="uid://it6ja2wjneak" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="8_cet6d"]
+[ext_resource type="Script" uid="uid://c85i0481q4uog" path="res://addons/proton_scatter/src/scatter_item.gd" id="9_lvy0a"]
+[ext_resource type="Script" uid="uid://dx7e7heldjwmg" path="res://addons/proton_scatter/src/scatter_shape.gd" id="10_r34gj"]
+[ext_resource type="Script" uid="uid://devkng6iaf5do" path="res://addons/proton_scatter/src/shapes/box_shape.gd" id="11_ajo3e"]
+[ext_resource type="Script" uid="uid://ba7ljvtfgk4cp" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="11_fj4xu"]
+[ext_resource type="PackedScene" uid="uid://3cs45ki47s2g" path="res://Terrain Objects/StaticBodies/Gasoline.tscn" id="13_avmfo"]
+[ext_resource type="PackedScene" uid="uid://hihjdulds0ll" path="res://Terrain Objects/StaticBodies/Booster.tscn" id="13_grapx"]
+[ext_resource type="PackedScene" uid="uid://dyp5jl0dpnmyh" path="res://Terrain Objects/StaticBodies/Ramp.tscn" id="15_85nak"]
+[ext_resource type="Texture2D" uid="uid://k5hvbk6w5du" path="res://GUI Contorls/Title.png" id="16_85nak"]
+[ext_resource type="Texture2D" uid="uid://5bg3lo181qt7" path="res://GUI Contorls/C.png" id="17_r34gj"]
+[ext_resource type="Texture2D" uid="uid://b7sogf2gw4ues" path="res://GUI Contorls/WASD.png" id="18_fj4xu"]
+[ext_resource type="Texture2D" uid="uid://byem3031enel4" path="res://GUI Contorls/R.png" id="19_8265v"]
+
+[sub_resource type="Environment" id="Environment_abomu"]
+ambient_light_source = 3
+ambient_light_color = Color(0.9999997, 0.2705426, 0.5227854, 1)
+ambient_light_sky_contribution = 0.78
+ambient_light_energy = 4.01
+reflected_light_source = 2
+fog_enabled = true
+fog_sun_scatter = 0.07
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.001
+volumetric_fog_albedo = Color(0.790946, 0.5281953, 0.49382073, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_abomu"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jj2cm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pk4of"]
+albedo_color = Color(0.55100375, 0.26853356, 0.122065134, 1)
+stencil_flags = 2
+stencil_outline_thickness = 0.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jj2cm"]
+size = Vector3(2, 0.001, 2)
+
+[sub_resource type="Resource" id="Resource_cet6d"]
+script = ExtResource("5_urncl")
+amount = 4500
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_lvy0a"]
+script = ExtResource("6_avmfo")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(0, 360, 0)
+scale = Vector3(2, 0, 5)
+custom_seed = 1
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_r34gj"]
+script = ExtResource("7_85nak")
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+restrict_height = true
+
+[sub_resource type="Resource" id="Resource_fj4xu"]
+script = ExtResource("8_cet6d")
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+collision_mask = 4294967295
+
+[sub_resource type="Resource" id="Resource_8265v"]
+script = ExtResource("3_wqm74")
+stack = Array[ExtResource("4_grapx")]([SubResource("Resource_cet6d"), SubResource("Resource_lvy0a"), SubResource("Resource_r34gj"), SubResource("Resource_fj4xu")])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cet6d"]
+albedo_color = Color(0.54816455, 0.5481646, 0.5481646, 1)
+albedo_texture_force_srgb = true
+
+[sub_resource type="Resource" id="Resource_vvq3m"]
+script = ExtResource("11_ajo3e")
+metadata/_custom_type_script = "uid://devkng6iaf5do"
+
+[sub_resource type="Resource" id="Resource_m47on"]
+script = ExtResource("11_fj4xu")
+radius = 6.797958
+metadata/_custom_type_script = "uid://ba7ljvtfgk4cp"
+
+[sub_resource type="Resource" id="Resource_gan6u"]
+script = ExtResource("5_urncl")
+amount = 20000
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_by65y"]
+script = ExtResource("6_avmfo")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(20, 360, 20)
+scale = Vector3(0.1, 0.1, 0.1)
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_w4q04"]
+script = ExtResource("7_85nak")
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+restrict_height = true
+
+[sub_resource type="Resource" id="Resource_afnia"]
+script = ExtResource("8_cet6d")
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+
+[sub_resource type="Resource" id="Resource_hbbdq"]
+script = ExtResource("3_wqm74")
+stack = Array[ExtResource("4_grapx")]([SubResource("Resource_gan6u"), SubResource("Resource_by65y"), SubResource("Resource_w4q04"), SubResource("Resource_afnia")])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ajo3e"]
+albedo_color = Color(0.97429246, 0.6703007, 0.44636017, 1)
+
+[sub_resource type="Resource" id="Resource_abomu"]
+script = ExtResource("11_ajo3e")
+size = Vector3(10, 2, 10)
+metadata/_custom_type_script = "uid://devkng6iaf5do"
+
+[sub_resource type="Resource" id="Resource_7t07g"]
+script = ExtResource("11_fj4xu")
+radius = 7.6641946
+metadata/_custom_type_script = "uid://ba7ljvtfgk4cp"
+
+[sub_resource type="Resource" id="Resource_an0h4"]
+script = ExtResource("5_urncl")
+amount = 30
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_0d5e5"]
+script = ExtResource("6_avmfo")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(0, 360, 0)
+scale = Vector3(5, 5, 5)
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_d8ekt"]
+script = ExtResource("7_85nak")
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+restrict_height = true
+
+[sub_resource type="Resource" id="Resource_kofwb"]
+script = ExtResource("8_cet6d")
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+
+[sub_resource type="Resource" id="Resource_gisjk"]
+script = ExtResource("3_wqm74")
+stack = Array[ExtResource("4_grapx")]([SubResource("Resource_an0h4"), SubResource("Resource_0d5e5"), SubResource("Resource_d8ekt"), SubResource("Resource_kofwb")])
+
+[sub_resource type="Resource" id="Resource_84062"]
+script = ExtResource("11_ajo3e")
+size = Vector3(2000, 10, 2000)
+metadata/_custom_type_script = "uid://devkng6iaf5do"
+
+[sub_resource type="GDScript" id="GDScript_gan6u"]
+script/source = "extends CanvasLayer
+
+
+@export var car: VehicleBody3D
+@export var idle_time_to_show := 4.0
+@export var move_speed_threshold := 0.5
+@export var fade_time := 0.5
+
+# Utilized the Vbox container as opposed to using panel
+# Panel always shows a background that overlays with the screen
+@onready var Vbox = $VBoxContainer
+var _idle := 0.0
+var _visible := true 
+var _tween: Tween
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	Vbox.modulate.a = 22
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if _is_player_moving():
+		_idle = 0.0
+		if visible:
+			set_menu(false)
+	else:
+		_idle += delta
+		if _idle >= idle_time_to_show and not _visible:
+			set_menu(true)
+			
+
+func _is_player_moving() -> bool:
+	var pressing := Input.is_action_just_pressed(\"W\") or Input.is_action_just_pressed(\"A\") or Input.is_action_just_pressed(\"S\") or Input.is_action_just_pressed(\"D\")
+	var rolling := car != null and car.linear_velocity.length() > move_speed_threshold
+	return pressing or rolling
+	
+
+# Sets the visibility of the frames 
+func set_menu(show: bool) -> void:
+	_visible = show
+	if _tween:
+		_tween.kill()
+	_tween = create_tween()
+	_tween.tween_property(Vbox, \"modulate:a\", 1.0 if show else 0.0, fade_time)
+"
+
+[node name="WorldScene" type="Node3D" unique_id=715023394]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1756398393]
+environment = SubResource("Environment_abomu")
+
+[node name="Land" type="StaticBody3D" parent="." unique_id=1943654847]
+transform = Transform3D(49.54271, 0, 0, 0, 1.66, 0, 0, 0, 24.47288, -0.8136444, -0.08517456, 0)
+physics_material_override = SubResource("PhysicsMaterial_abomu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Land" unique_id=233405434]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -0.14941408, 0, -0.44628954)
+mesh = SubResource("PlaneMesh_jj2cm")
+surface_material_override/0 = SubResource("StandardMaterial3D_pk4of")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Land" unique_id=938783430]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -0.14941408, 0, -0.44628954)
+shape = SubResource("BoxShape3D_jj2cm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Land" unique_id=1161953868]
+transform = Transform3D(0.020184604, 0, 0, 0, -0.59748155, -0.1680518, 0, -0.03674422, -0.051533546, 0, 8.775975, -0.00032138397)
+light_color = Color(1, 0.7629983, 0.28060427, 1)
+light_energy = 2.773
+shadow_enabled = true
+shadow_bias = 0.0
+shadow_transmittance_bias = 7.421
+shadow_blur = 0.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="Land" unique_id=1309470566]
+transform = Transform3D(0.020181518, -0.00017910493, 0.00030415235, -0.009571431, -0.28843227, 0.49609467, 0.00023003366, -0.017557262, -0.05513217, 0, 8.526713, -0.22237012)
+light_color = Color(1, 0.7629983, 0.28060427, 1)
+light_energy = 0.7
+shadow_enabled = true
+shadow_bias = 0.0
+shadow_transmittance_bias = 7.421
+shadow_blur = 0.0
+
+[node name="CarMain" parent="." unique_id=453628612 instance=ExtResource("1_jj2cm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0984507, 1.0030898, 3.1046982)
+
+[node name="GeneralScatter" type="Node3D" parent="." unique_id=863194685]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+script = ExtResource("2_ajo3e")
+render_mode = 1
+keep_static_colliders = true
+modifier_stack = SubResource("Resource_8265v")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://dgqq1tf8prx5s"
+
+[node name="Stone" type="Node3D" parent="GeneralScatter" unique_id=1638737001]
+script = ExtResource("9_lvy0a")
+override_material = SubResource("StandardMaterial3D_cet6d")
+path = "uid://8ay5rlrutcmx"
+
+[node name="ScatterShape" type="Node3D" parent="GeneralScatter" unique_id=517685678]
+transform = Transform3D(1000, 0, -2.9802299e-05, 0, 10, 0, 2.9802299e-05, 0, 1000, 0, 0, 0)
+script = ExtResource("10_r34gj")
+shape = SubResource("Resource_vvq3m")
+
+[node name="Trees" type="Node3D" parent="GeneralScatter" unique_id=1285711014]
+script = ExtResource("9_lvy0a")
+proportion = 70
+source_scale_multiplier = 2.0
+path = "uid://dstiktp15x8m5"
+metadata/_custom_type_script = "uid://c85i0481q4uog"
+
+[node name="ProtonScatterItem" type="Node3D" parent="GeneralScatter" unique_id=1015367346]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.729145, 0, 18.56101)
+script = ExtResource("10_r34gj")
+shape = SubResource("Resource_m47on")
+metadata/_custom_type_script = "uid://dx7e7heldjwmg"
+
+[node name="ProtonScatterItem2" type="Node3D" parent="GeneralScatter" unique_id=86688102]
+script = ExtResource("9_lvy0a")
+proportion = 10
+path = "uid://ts6a7eniqkst"
+metadata/_custom_type_script = "uid://c85i0481q4uog"
+
+[node name="Node3D" parent="GeneralScatter" unique_id=2103481219 instance=ExtResource("13_avmfo")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -31.011335, -0.00043473052, 59.781433)
+
+[node name="ProtonScatter2" type="Node3D" parent="." unique_id=1713467123]
+script = ExtResource("2_ajo3e")
+render_mode = 2
+modifier_stack = SubResource("Resource_hbbdq")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://dgqq1tf8prx5s"
+
+[node name="ScatterItem" type="Node3D" parent="ProtonScatter2" unique_id=426409650]
+script = ExtResource("9_lvy0a")
+override_material = SubResource("StandardMaterial3D_ajo3e")
+path = "uid://c3c76je2y6vfj"
+
+[node name="ScatterShape" type="Node3D" parent="ProtonScatter2" unique_id=1057846080]
+transform = Transform3D(200, 0, -5.96046e-06, 0, 2, 0, 5.96046e-06, 0, 200, 0, 0, 0)
+script = ExtResource("10_r34gj")
+shape = SubResource("Resource_abomu")
+
+[node name="ProtonScatterShape" type="Node3D" parent="ProtonScatter2" unique_id=1288159704]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5323715, 0, 4.4923425)
+script = ExtResource("10_r34gj")
+negative = true
+shape = SubResource("Resource_7t07g")
+metadata/_custom_type_script = "uid://dx7e7heldjwmg"
+
+[node name="Node3D" parent="." unique_id=284139180 instance=ExtResource("13_grapx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.550079, -0.06467676, 2.5897179)
+
+[node name="Gasoline2" parent="." unique_id=579969518 instance=ExtResource("13_avmfo")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 634.12897, -0.006543846, 294.00366)
+
+[node name="Gasolin 34" parent="." unique_id=754016756 instance=ExtResource("13_avmfo")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -458.61578, -0.0021755472, 592.55334)
+
+[node name="Gasoline4" parent="." unique_id=1137943820 instance=ExtResource("13_avmfo")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 1572.0317, -0.015268973, -1024.8115)
+
+[node name="Gasoline5" parent="." unique_id=1475053989 instance=ExtResource("13_avmfo")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 661.77295, -0.006543846, -276.26968)
+
+[node name="Gasoline" parent="." unique_id=657506462 instance=ExtResource("13_avmfo")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 220.59099, -0.002181282, 98.00122)
+
+[node name="Gasoline3" parent="." unique_id=1437022779 instance=ExtResource("13_avmfo")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 907.15424, -0.006543846, 360.55606)
+
+[node name="Gasoline6" parent="." unique_id=879613479 instance=ExtResource("13_avmfo")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 836.6603, 1.2907736, -150.70244)
+
+[node name="Node3D2" parent="." unique_id=145556350 instance=ExtResource("13_avmfo")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -778.56635, -0.0021717453, 560.51874)
+
+[node name="Node3D3" parent="." unique_id=38840549 instance=ExtResource("13_avmfo")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -914.52515, -0.002172699, 169.60071)
+
+[node name="Ramp3" parent="." unique_id=11092765 instance=ExtResource("15_85nak")]
+transform = Transform3D(-5.0104823, 0, 15.195232, 0, 16, 0, -15.195232, 0, -5.0104823, -386.53156, -1.3432771, 1375.4578)
+
+[node name="Ramp2" parent="." unique_id=611602686 instance=ExtResource("15_85nak")]
+transform = Transform3D(-2.3440902, 0, -3.241179, 0, 4, 0, 3.241179, 0, -2.3440902, 404.2975, -0.26865542, -48.402374)
+
+[node name="Ramp" parent="." unique_id=778329146 instance=ExtResource("15_85nak")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 134.76582, -0.08955181, -16.134125)
+
+[node name="Ramp5" parent="." unique_id=1934840435 instance=ExtResource("15_85nak")]
+transform = Transform3D(-2.505241, 0, 7.597616, 0, 8, 0, -7.597616, 0, -2.505241, 496.43607, -6.970192, 232.63776)
+
+[node name="Ramp4" parent="." unique_id=425818378 instance=ExtResource("15_85nak")]
+transform = Transform3D(-2.3440902, 0, -3.241179, 0, 4, 0, 3.241179, 0, -2.3440902, 404.2975, -0.26865542, 8.354912)
+
+[node name="ProtonScatter" type="Node3D" parent="." unique_id=620284316]
+script = ExtResource("2_ajo3e")
+render_mode = 1
+modifier_stack = SubResource("Resource_gisjk")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://dgqq1tf8prx5s"
+
+[node name="ScatterItem" type="Node3D" parent="ProtonScatter" unique_id=1424977943]
+script = ExtResource("9_lvy0a")
+path = "uid://dyp5jl0dpnmyh"
+
+[node name="ScatterShape" type="Node3D" parent="ProtonScatter" unique_id=2070434828]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+script = ExtResource("10_r34gj")
+shape = SubResource("Resource_84062")
+
+[node name="MenuUi" type="CanvasLayer" parent="." unique_id=611198287]
+script = SubResource("GDScript_gan6u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuUi" unique_id=1004977257]
+offset_left = 94.0
+offset_top = 444.0
+offset_right = 266.0
+offset_bottom = 484.0
+
+[node name="Title" type="Sprite2D" parent="MenuUi/VBoxContainer" unique_id=647693131]
+position = Vector2(51, -349)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("16_85nak")
+
+[node name="C" type="Sprite2D" parent="MenuUi/VBoxContainer" unique_id=717785934]
+position = Vector2(47, 113)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("17_r34gj")
+
+[node name="Wasd" type="Sprite2D" parent="MenuUi/VBoxContainer" unique_id=300949102]
+position = Vector2(59, -21.999992)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("18_fj4xu")
+
+[node name="R" type="Sprite2D" parent="MenuUi/VBoxContainer" unique_id=753032436]
+position = Vector2(230.00003, 118.99997)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("19_8265v")

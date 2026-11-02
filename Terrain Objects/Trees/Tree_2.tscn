@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bakw3cny33tuc"]
+
+[ext_resource type="PackedScene" uid="uid://d3mlcvtsry85i" path="res://Terrain Objects/Trees/tree_var_2.glb" id="1_0yt6f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_abomu"]
+size = Vector3(0.61880493, 0.47766113, 0.62475586)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7t07g"]
+size = Vector3(0.29605103, 1.3355713, 0.38763428)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m47on"]
+size = Vector3(2.2524414, 1.3104248, 1.9332886)
+
+[node name="Tree2" type="Node3D" unique_id=1360146953]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=187815196]
+
+[node name="tree_var_2" parent="StaticBody3D" unique_id=711042333 instance=ExtResource("1_0yt6f")]
+
+[node name="BaseCollisionShape" type="CollisionShape3D" parent="StaticBody3D" unique_id=760336097]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13487244, 0.26116943, -0.053100586)
+shape = SubResource("BoxShape3D_abomu")
+
+[node name="BarkCollision" type="CollisionShape3D" parent="StaticBody3D" unique_id=105591375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15748596, 0.63897705, -0.09524536)
+shape = SubResource("BoxShape3D_7t07g")
+debug_color = Color(0.80303407, 0.31111047, 0.7125565, 0.41960785)
+
+[node name="LeafCollision" type="CollisionShape3D" parent="StaticBody3D" unique_id=2142826593]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017333984, 1.8847063, -0.11294556)
+shape = SubResource("BoxShape3D_m47on")
+debug_color = Color(0.52783495, 0.5641823, 0.27690265, 0.41960785)

@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://hihjdulds0ll"]
+
+[ext_resource type="PackedScene" uid="uid://dtoumidm4lqut" path="res://Terrain Objects/StaticBodies/SelectableArea.glb" id="1_m3d5g"]
+
+[sub_resource type="GDScript" id="GDScript_7t07g"]
+script/source = "extends Area3D
+
+
+@export var boost_multi := 7.0
+@export var duration := 30
+
+# Time it woul need to reactiveate the effect
+@export var reuse_time := 10
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
+	
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+	
+
+# Detects the Body 3D upon enters
+func _on_body_entered(body: Node3D) -> void:
+	if body.has_method(\"apply_boost\"):
+		body.apply_boost(boost_multi, duration)
+		_collect()
+
+# For collecting the powerup in the Area 3D
+func _collect():
+	if reuse_time <= 0:
+		queue_free()
+		return
+	hide()
+	set_deferred(\"monitoring\", false)
+	await get_tree().create_timer(reuse_time).timeout
+	show()
+	monitoring = true
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_abomu"]
+size = Vector3(2.2844086, 0.53027344, 2.416809)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7t07g"]
+
+[sub_resource type="Animation" id="Animation_p6lex"]
+resource_name = "Area Animation"
+length = 3.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Area3D/SelectableArea:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.11, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.27, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tg6h2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Area3D/SelectableArea:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mq1cw"]
+_data = {
+&"Area Animation": SubResource("Animation_p6lex"),
+&"RESET": SubResource("Animation_tg6h2")
+}
+
+[node name="Node3D" type="Node3D" unique_id=284139180]
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2087627005]
+collision_layer = 4
+collision_mask = 2
+script = SubResource("GDScript_7t07g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=573197471]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15554047, 0.23486328, 0.09988403)
+shape = SubResource("BoxShape3D_abomu")
+debug_color = Color(1, 0.73716664, 0.17000002, 0.41960785)
+
+[node name="SelectableArea" parent="Area3D" unique_id=370353542 instance=ExtResource("1_m3d5g")]
+
+[node name="Untitled" parent="Area3D/SelectableArea" index="0" unique_id=1028119632]
+surface_material_override/0 = SubResource("StandardMaterial3D_7t07g")
+
+[node name="Label3D" type="Label3D" parent="Area3D" unique_id=1794528123]
+transform = Transform3D(1.1924881e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, -1.1924881e-08, -5.2125306e-16, 2.3097572, 0, 0.1514895)
+pixel_size = 0.0201
+text = "Speed Boost"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=980687137]
+libraries/ = SubResource("AnimationLibrary_mq1cw")
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
+
+[editable path="Area3D/SelectableArea"]

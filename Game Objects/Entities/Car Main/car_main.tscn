@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://cnxrpa35mfxch"]
+
+[ext_resource type="PackedScene" uid="uid://deye2ow4iocr0" path="res://Game Objects/Entities/Car Main/car-top.glb" id="1_xe5rt"]
+[ext_resource type="Material" uid="uid://b0v8j7lo7ka4a" path="res://Game Objects/Entities/Car Main/TireMaterialShader.tres" id="2_vvq3m"]
+
+[sub_resource type="GDScript" id="GDScript_abomu"]
+script/source = "extends VehicleBody3D
+
+# Values for the steering and acceleration
+@export var steer = 0.5
+@export var power = 100
+@export var power_multi = 3       # Can be used as a basic power multiplier
+var base_power_multi = 1 
+
+# Timer -- New Instance
+# TODO: Make the instance on the inference time 
+var timer: Timer
+
+@onready var cam1 = $TopMainCam
+@onready var cam2 = $SideCamera
+@onready var cam3 = $\"Upper Camera\"
+@onready var cam4 = $UpperBackCamera
+
+# The active camera by default is the cam 1 
+# Range of 0-2 - for each camera represents index
+@export var activeCam := 0
+
+
+#-- For Resetting the Position of the Object Node
+@export var z_lift := 1.5			# The amount of z axis for translation
+var lift_requested := false         # Boolean value for flag
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	cam2.make_current()       # Makes the camera as the current camera
+	timer = Timer.new()
+	timer.one_shot = true
+	timer.timeout.connect(end_boost)
+	add_child(timer)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func _physics_process(delta: float) -> void:
+	steering = move_toward(steering, Input.get_axis(\"D\", \"A\") * steer, delta * 10)
+	engine_force = Input.get_axis(\"S\", \"W\")  * (power * power_multi * base_power_multi)
+	print(engine_force)
+
+# Apply boost function
+# Detected through the Area 2d and invoked separately2
+func apply_boost(powerMulti: float, duration: float):
+	base_power_multi = powerMulti * base_power_multi
+	timer.start(duration)
+
+func end_boost():
+	base_power_multi = 1
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"ChangeCam\"):
+		match activeCam:
+			0:
+				activeCam += 1 
+				cam2.make_current()
+			1:
+				activeCam += 1
+				cam4.make_current()
+			2:
+				activeCam += 1 
+				cam3.make_current()
+			3: 
+				activeCam = 0
+				cam1.make_current()
+	
+#	 Condition B - When the reset button was pressed
+	if Input.is_action_just_pressed(\"reset_car_pos\"):
+		if _is_tipped_over():
+			lift_requested = true
+	
+
+# Flip Logic Detector
+# TODO: Add a coordinate map logic, that allows the vehicle to be spawned randomly in the map
+func _is_tipped_over() -> bool:
+	return global_transform.basis.y.dot(Vector3.UP) < 0.6
+
+func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+	
+	# Filters out the unnecessary request per frame
+	if not lift_requested:
+		return
+	
+	lift_requested = false
+	
+	# Transform Values
+	var t := state.transform
+	var forward := -t.basis.z
+	
+	forward.y = 0.0
+	
+	if forward.length() < 0.1: 
+		forward = t.basis.y
+		forward.y = 0.0
+	forward = forward.normalized() 
+	
+	t.basis = Basis.looking_at(forward, Vector3.UP)
+	t.origin.y += z_lift
+	state.transform = t
+	state.linear_velocity = Vector3.ZERO
+	state.angular_velocity = Vector3.ZERO
+	
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_abomu"]
+size = Vector3(4.8425293, 1.4838257, 2.231079)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7t07g"]
+size = Vector3(1.3718262, 0.897583, 1.0458984)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_abomu"]
+height = 0.5118408
+
+[sub_resource type="BoxMesh" id="BoxMesh_abomu"]
+size = Vector3(0.17871094, 0.28076172, 0.19750977)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7t07g"]
+albedo_color = Color(0.7670247, 2.5268644e-06, 9.62615e-07, 1)
+emission_enabled = true
+emission = Color(1, 0.7941667, 0.35000002, 1)
+emission_energy_multiplier = 5.11
+backlight = Color(1, 1, 1, 1)
+
+[node name="CarMain" type="Node3D" unique_id=453628612]
+
+[node name="VehicleBody3D" type="VehicleBody3D" parent="." unique_id=297288532]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0.5753063, 0)
+collision_layer = 2
+mass = 60.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(-1.3, 0, 0)
+script = SubResource("GDScript_abomu")
+
+[node name="car-top" parent="VehicleBody3D" unique_id=1659563708 instance=ExtResource("1_xe5rt")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.8335707, 0)
+
+[node name="LowerCollisionShape" type="CollisionShape3D" parent="VehicleBody3D" unique_id=672661804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.397583, 0.55104196, -0.10038614)
+shape = SubResource("BoxShape3D_abomu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleBody3D" unique_id=1031954406]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.48718262, 1.5412248, -0.095214844)
+shape = SubResource("BoxShape3D_7t07g")
+debug_color = Color(0.9595887, 1.92523e-06, 0.52347434, 0.41960785)
+
+[node name="Wheel" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=1890459763]
+transform = Transform3D(1.43586405e-08, 0, -0.99999994, 0, 1, 0, 1.2040898, 0, 1.1924882e-08, -1.1902337, -0.30729657, 0.83046967)
+use_as_steering = true
+wheel_radius = 0.58
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Wheel" unique_id=1895837639]
+transform = Transform3D(-4.3711395e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371138e-08, 1.910687e-15, 0.20607442, 2.9802322e-08, 0.04820454)
+material_override = ExtResource("2_vvq3m")
+mesh = SubResource("CylinderMesh_abomu")
+
+[node name="Wheel2" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=2094652773]
+transform = Transform3D(1.43586405e-08, 0, -0.99999994, 0, 1, 0, 1.2040898, 0, 1.1924882e-08, -1.1902336, -0.30729657, -1.575756)
+use_as_steering = true
+wheel_radius = 0.58
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Wheel2" unique_id=785946225]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.2579709, 3.2524753e-08, 0.0482046)
+material_override = ExtResource("2_vvq3m")
+mesh = SubResource("CylinderMesh_abomu")
+
+[node name="Wheel3" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=72977431]
+transform = Transform3D(1.1924882e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 1.1924882e-08, 0.87087893, -0.19750124, 0.58237743)
+use_as_traction = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Wheel3" unique_id=1279908361]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.2579709, 3.2524753e-08, 0.0482046)
+material_override = ExtResource("2_vvq3m")
+mesh = SubResource("CylinderMesh_abomu")
+
+[node name="Wheel4" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=708851017]
+transform = Transform3D(1.1924882e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 1.1924882e-08, 0.87087893, -0.19750124, -1.4159998)
+use_as_traction = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Wheel4" unique_id=1015041683]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.2579709, 3.2524753e-08, 0.0482046)
+material_override = ExtResource("2_vvq3m")
+mesh = SubResource("CylinderMesh_abomu")
+
+[node name="TopMainCam" type="Camera3D" parent="VehicleBody3D" unique_id=602271725]
+transform = Transform3D(0.95292985, -0.28571942, 0.10143489, 0, 0.334558, 0.9423752, -0.30319074, -0.89801747, 0.3188103, -5.017707, 29.872553, 9.199389)
+keep_aspect = 0
+fov = 78.52549
+
+[node name="SideCamera" type="Camera3D" parent="VehicleBody3D" unique_id=124958532]
+transform = Transform3D(-0.07668445, 0.022544445, 0.9968005, 0, 0.99974436, -0.022611028, -0.99705535, -0.0017339144, -0.07666485, -0.30722058, 0.6093044, 1.2555084)
+doppler_tracking = 2
+fov = 74.7
+size = 0.815
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D" unique_id=486404371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7150677, 0.51885784, 0.6959885)
+mesh = SubResource("BoxMesh_abomu")
+surface_material_override/0 = SubResource("StandardMaterial3D_7t07g")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="VehicleBody3D" unique_id=416779948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.715068, 0.51885784, -0.89756566)
+mesh = SubResource("BoxMesh_abomu")
+surface_material_override/0 = SubResource("StandardMaterial3D_7t07g")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="VehicleBody3D" unique_id=2029764080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.481409, 0.51885784, 0.69598806)
+mesh = SubResource("BoxMesh_abomu")
+surface_material_override/0 = SubResource("StandardMaterial3D_7t07g")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="VehicleBody3D" unique_id=530089682]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.481409, 0.51885784, -0.8975661)
+mesh = SubResource("BoxMesh_abomu")
+surface_material_override/0 = SubResource("StandardMaterial3D_7t07g")
+
+[node name="Upper Camera" type="Camera3D" parent="VehicleBody3D" unique_id=890786871]
+transform = Transform3D(0.0018750936, -0.077665985, 0.9969777, 0, 0.9969795, 0.07766612, -0.9999983, -0.00014563125, 0.0018694297, -0.7465515, 2.1450973, -0.08403129)
+
+[node name="UpperBackCamera" type="Camera3D" parent="VehicleBody3D" unique_id=1769026261]
+transform = Transform3D(-0.01122434, -0.67817354, 0.73481613, 0, 0.73486245, 0.6782163, -0.999937, 0.0076125297, -0.008248346, 14.149532, 18.436356, -0.012108579)

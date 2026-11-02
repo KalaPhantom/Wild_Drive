@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bhxdegi8dvesk"]
+
+[ext_resource type="Script" uid="uid://dm51hdf0l1gi5" path="res://Character Test/character_body_3d.gd" id="1_01fhm"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_abomu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_abomu"]
+
+[node name="Node3D" type="Node3D" unique_id=481211903]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1034786216]
+script = ExtResource("1_01fhm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=899442268]
+transform = Transform3D(1.785, 0, 0, 0, 1.785, 0, 0, 0, 1.785, 0, 1.7939813, 0)
+shape = SubResource("SphereShape3D_abomu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/CollisionShape3D" unique_id=646414404]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4837191, 0)
+mesh = SubResource("CapsuleMesh_abomu")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=278962939]
+transform = Transform3D(0.14365259, -0.6843662, 0.7148474, 0.05822626, 0.7269329, 0.6842356, -0.9879138, -0.05666931, 0.14427388, 15.6920395, 18.941782, 0.47582293)
