@@ -8,9 +8,9 @@ script/source = "extends VehicleBody3D
 
 # Values for the steering and acceleration
 @export var steer = 0.5
-@export var power = 100
-@export var power_multi = 3       # Can be used as a basic power multiplier
-var base_power_multi = 1 
+@export var power = 100.0
+@export var power_multi = 3.0       # Can be used as a basic power multiplier
+var base_power_multi = 1.0 
 
 # Timer -- New Instance
 # TODO: Make the instance on the inference time 
@@ -50,7 +50,7 @@ func _physics_process(delta: float) -> void:
 # Apply boost function
 # Detected through the Area 2d and invoked separately2
 func apply_boost(powerMulti: float, duration: float):
-	base_power_multi = powerMulti * base_power_multi
+	base_power_multi = powerMulti
 	timer.start(duration)
 
 func end_boost():
@@ -73,15 +73,21 @@ func _input(event: InputEvent) -> void:
 				cam1.make_current()
 	
 #	 Condition B - When the reset button was pressed
-	if Input.is_action_just_pressed(\"reset_car_pos\"):
-		if _is_tipped_over():
-			lift_requested = true
+	if Input.is_action_just_pressed(\"reset_car_pos\") and (_is_tipped_over() or _can_reset()):
+		lift_requested = true
 	
 
 # Flip Logic Detector
 # TODO: Add a coordinate map logic, that allows the vehicle to be spawned randomly in the map
 func _is_tipped_over() -> bool:
+	print(global_transform.basis.y.dot(Vector3.UP))
 	return global_transform.basis.y.dot(Vector3.UP) < 0.6
+	
+
+
+func _can_reset() -> bool:
+	var stuck := linear_velocity.length() < 1.0
+	return _is_tipped_over() or stuck
 
 func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 	
@@ -152,17 +158,17 @@ shape = SubResource("BoxShape3D_7t07g")
 debug_color = Color(0.9595887, 1.92523e-06, 0.52347434, 0.41960785)
 
 [node name="Wheel" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=1890459763]
-transform = Transform3D(1.43586405e-08, 0, -0.99999994, 0, 1, 0, 1.2040898, 0, 1.1924882e-08, -1.1902337, -0.30729657, 0.83046967)
+transform = Transform3D(-6.049656e-08, 0, -1.15, 0, 1.15, 0, 1.384, 0, -5.0268095e-08, -1.1902337, -0.16437739, 1.36453)
 use_as_steering = true
 wheel_radius = 0.58
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Wheel" unique_id=1895837639]
-transform = Transform3D(-4.3711395e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371138e-08, 1.910687e-15, 0.20607442, 2.9802322e-08, 0.04820454)
+transform = Transform3D(-4.37114e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.3711385e-08, 1.9106867e-15, -0.23746431, 2.9802322e-08, 0.048204422)
 material_override = ExtResource("2_vvq3m")
 mesh = SubResource("CylinderMesh_abomu")
 
 [node name="Wheel2" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=2094652773]
-transform = Transform3D(1.43586405e-08, 0, -0.99999994, 0, 1, 0, 1.2040898, 0, 1.1924882e-08, -1.1902336, -0.30729657, -1.575756)
+transform = Transform3D(-6.049656e-08, 0, -1.15, 0, 1.15, 0, 1.384, 0, -5.0268095e-08, -1.1902336, -0.16437739, -1.575756)
 use_as_steering = true
 wheel_radius = 0.58
 
@@ -172,11 +178,11 @@ material_override = ExtResource("2_vvq3m")
 mesh = SubResource("CylinderMesh_abomu")
 
 [node name="Wheel3" type="VehicleWheel3D" parent="VehicleBody3D" unique_id=72977431]
-transform = Transform3D(1.1924882e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 1.1924882e-08, 0.87087893, -0.19750124, 0.58237743)
+transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, 0.8708789, -0.19750124, 1.2088718)
 use_as_traction = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleBody3D/Wheel3" unique_id=1279908361]
-transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.2579709, 3.2524753e-08, 0.0482046)
+transform = Transform3D(-4.3711385e-08, 0.99999994, -4.3711385e-08, 0, -4.371139e-08, -1, -0.99999994, -4.3711385e-08, 1.9106853e-15, -0.29663032, 2.9802322e-08, 0.0482046)
 material_override = ExtResource("2_vvq3m")
 mesh = SubResource("CylinderMesh_abomu")
 

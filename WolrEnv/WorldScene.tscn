@@ -41,16 +41,16 @@ albedo_color = Color(0.55100375, 0.26853356, 0.122065134, 1)
 stencil_flags = 2
 stencil_outline_thickness = 0.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_jj2cm"]
-size = Vector3(2, 0.001, 2)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_r34gj"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
 
-[sub_resource type="Resource" id="Resource_cet6d"]
+[sub_resource type="Resource" id="Resource_fj4xu"]
 script = ExtResource("5_urncl")
 amount = 4500
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_lvy0a"]
+[sub_resource type="Resource" id="Resource_8265v"]
 script = ExtResource("6_avmfo")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 360, 0)
@@ -58,22 +58,22 @@ scale = Vector3(2, 0, 5)
 custom_seed = 1
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_r34gj"]
+[sub_resource type="Resource" id="Resource_gan6u"]
 script = ExtResource("7_85nak")
 offset_step = 0.2
 consecutive_step_multiplier = 0.75
 restrict_height = true
 
-[sub_resource type="Resource" id="Resource_fj4xu"]
+[sub_resource type="Resource" id="Resource_by65y"]
 script = ExtResource("8_cet6d")
 ray_length = 5.0
 ray_offset = 5.0
 remove_points_on_miss = false
 collision_mask = 4294967295
 
-[sub_resource type="Resource" id="Resource_8265v"]
+[sub_resource type="Resource" id="Resource_w4q04"]
 script = ExtResource("3_wqm74")
-stack = Array[ExtResource("4_grapx")]([SubResource("Resource_cet6d"), SubResource("Resource_lvy0a"), SubResource("Resource_r34gj"), SubResource("Resource_fj4xu")])
+stack = Array[ExtResource("4_grapx")]([SubResource("Resource_fj4xu"), SubResource("Resource_8265v"), SubResource("Resource_gan6u"), SubResource("Resource_by65y")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cet6d"]
 albedo_color = Color(0.54816455, 0.5481646, 0.5481646, 1)
@@ -88,34 +88,34 @@ script = ExtResource("11_fj4xu")
 radius = 6.797958
 metadata/_custom_type_script = "uid://ba7ljvtfgk4cp"
 
-[sub_resource type="Resource" id="Resource_gan6u"]
+[sub_resource type="Resource" id="Resource_afnia"]
 script = ExtResource("5_urncl")
 amount = 20000
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_by65y"]
+[sub_resource type="Resource" id="Resource_hbbdq"]
 script = ExtResource("6_avmfo")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(20, 360, 20)
 scale = Vector3(0.1, 0.1, 0.1)
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_w4q04"]
+[sub_resource type="Resource" id="Resource_an0h4"]
 script = ExtResource("7_85nak")
 offset_step = 0.2
 consecutive_step_multiplier = 0.75
 restrict_height = true
 
-[sub_resource type="Resource" id="Resource_afnia"]
+[sub_resource type="Resource" id="Resource_0d5e5"]
 script = ExtResource("8_cet6d")
 ray_length = 5.0
 ray_offset = 5.0
 remove_points_on_miss = false
 
-[sub_resource type="Resource" id="Resource_hbbdq"]
+[sub_resource type="Resource" id="Resource_d8ekt"]
 script = ExtResource("3_wqm74")
-stack = Array[ExtResource("4_grapx")]([SubResource("Resource_gan6u"), SubResource("Resource_by65y"), SubResource("Resource_w4q04"), SubResource("Resource_afnia")])
+stack = Array[ExtResource("4_grapx")]([SubResource("Resource_afnia"), SubResource("Resource_hbbdq"), SubResource("Resource_an0h4"), SubResource("Resource_0d5e5")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ajo3e"]
 albedo_color = Color(0.97429246, 0.6703007, 0.44636017, 1)
@@ -130,34 +130,34 @@ script = ExtResource("11_fj4xu")
 radius = 7.6641946
 metadata/_custom_type_script = "uid://ba7ljvtfgk4cp"
 
-[sub_resource type="Resource" id="Resource_an0h4"]
+[sub_resource type="Resource" id="Resource_kofwb"]
 script = ExtResource("5_urncl")
 amount = 30
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_0d5e5"]
+[sub_resource type="Resource" id="Resource_gisjk"]
 script = ExtResource("6_avmfo")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 360, 0)
 scale = Vector3(5, 5, 5)
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_d8ekt"]
+[sub_resource type="Resource" id="Resource_ahmas"]
 script = ExtResource("7_85nak")
 offset_step = 0.2
 consecutive_step_multiplier = 0.75
 restrict_height = true
 
-[sub_resource type="Resource" id="Resource_kofwb"]
+[sub_resource type="Resource" id="Resource_5xw21"]
 script = ExtResource("8_cet6d")
 ray_length = 5.0
 ray_offset = 5.0
 remove_points_on_miss = false
 
-[sub_resource type="Resource" id="Resource_gisjk"]
+[sub_resource type="Resource" id="Resource_yfhmc"]
 script = ExtResource("3_wqm74")
-stack = Array[ExtResource("4_grapx")]([SubResource("Resource_an0h4"), SubResource("Resource_0d5e5"), SubResource("Resource_d8ekt"), SubResource("Resource_kofwb")])
+stack = Array[ExtResource("4_grapx")]([SubResource("Resource_kofwb"), SubResource("Resource_gisjk"), SubResource("Resource_ahmas"), SubResource("Resource_5xw21")])
 
 [sub_resource type="Resource" id="Resource_84062"]
 script = ExtResource("11_ajo3e")
@@ -225,9 +225,9 @@ transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -0.14941408, 0, -0.4462
 mesh = SubResource("PlaneMesh_jj2cm")
 surface_material_override/0 = SubResource("StandardMaterial3D_pk4of")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Land" unique_id=938783430]
-transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, -0.14941408, 0, -0.44628954)
-shape = SubResource("BoxShape3D_jj2cm")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Land" unique_id=1455735416]
+transform = Transform3D(100, 0, 0, 0, 6.7221174, 0, 0, 0, 100, -0.14941408, 0, -0.4462896)
+shape = SubResource("ConcavePolygonShape3D_r34gj")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Land" unique_id=1161953868]
 transform = Transform3D(0.020184604, 0, 0, 0, -0.59748155, -0.1680518, 0, -0.03674422, -0.051533546, 0, 8.775975, -0.00032138397)
@@ -255,7 +255,7 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 script = ExtResource("2_ajo3e")
 render_mode = 1
 keep_static_colliders = true
-modifier_stack = SubResource("Resource_8265v")
+modifier_stack = SubResource("Resource_w4q04")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://dgqq1tf8prx5s"
@@ -295,7 +295,7 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -31.011335, -0.00043473
 [node name="ProtonScatter2" type="Node3D" parent="." unique_id=1713467123]
 script = ExtResource("2_ajo3e")
 render_mode = 2
-modifier_stack = SubResource("Resource_hbbdq")
+modifier_stack = SubResource("Resource_d8ekt")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://dgqq1tf8prx5s"
@@ -365,7 +365,7 @@ transform = Transform3D(-2.3440902, 0, -3.241179, 0, 4, 0, 3.241179, 0, -2.34409
 [node name="ProtonScatter" type="Node3D" parent="." unique_id=620284316]
 script = ExtResource("2_ajo3e")
 render_mode = 1
-modifier_stack = SubResource("Resource_gisjk")
+modifier_stack = SubResource("Resource_yfhmc")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://dgqq1tf8prx5s"
